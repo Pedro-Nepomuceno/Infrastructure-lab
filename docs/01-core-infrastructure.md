@@ -45,3 +45,52 @@ UTM provides the virtual router and NAT.
 - DNS manually pointed to `192.168.64.10`
 
 
+## 3. Core Services
+
+### Active Directory
+- New forest and domain created: `corp.local`
+- DC01 promoted from standalone server to Domain Controller
+- AD-integrated DNS automatically created
+
+### DNS
+- Zone: `corp.local`
+- Hosted on DC01
+- All domain clients must use DC01 as their DNS server
+
+### DHCP
+- Scope: `192.168.64.50 – 192.168.64.200`
+- Options:
+  - Router: `192.168.64.1`
+  - DNS Server: `192.168.64.10`
+- Purpose: ensure clients auto-configure correctly and discover the domain
+
+---
+
+## 4. Validation & Troubleshooting
+
+### Validation Steps
+
+On `WS01`:
+
+- Verify network configuration:
+  ```cmd
+  ipconfig /all
+Expected:
+
+IPv4 in 192.168.64.0/24
+
+DNS Server = 192.168.64.10
+
+Test connectivity:
+
+ping 192.168.64.10
+Test DNS resolution:
+
+nslookup corp.local
+Join the domain:
+
+System > About > Domain or workgroup > Join domain
+Confirm WS01 appears in Active Directory
+
+
+
